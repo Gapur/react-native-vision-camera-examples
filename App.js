@@ -20,7 +20,7 @@ import Animated, {
 
 const AnimatedText = Animated.createAnimatedComponent(TextInput);
 
-function App() {
+export default function App() {
   const [cameraPermission, setCameraPermission] = useState();
   const detectorResult = useSharedValue('');
 
@@ -132,5 +132,3 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
 });
-
-export default App;
