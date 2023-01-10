@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -6,6 +6,8 @@ import {
   View,
   ActivityIndicator,
   TextInput,
+  TouchableOpacity,
+  Image,
 } from 'react-native';
 import {
   Camera,
@@ -17,11 +19,16 @@ import Animated, {
   useAnimatedProps,
   useSharedValue,
 } from 'react-native-reanimated';
+import RNPickerSelect from 'react-native-picker-select';
 
 const AnimatedText = Animated.createAnimatedComponent(TextInput);
 
 export default function App() {
+  const camera = useRef(null);
   const [cameraPermission, setCameraPermission] = useState();
+  const [currentExample, setCurrentExample] = useState('take-photo');
+  const [photoPath, setPhotoPath] = useState();
+  const [snapshotPath, setSnapshotPath] = useState();
   const detectorResult = useSharedValue('');
 
   useEffect(() => {
@@ -49,27 +56,130 @@ export default function App() {
     [detectorResult.value],
   );
 
-  const renderCameraContent = () => {
-    if (cameraDevice && cameraPermission === 'authorized') {
-      return (
-        <View>
-          <Camera
-            style={styles.camera}
-            device={cameraDevice}
-            isActive={true}
-            frameProcessor={frameProcessor}
-            frameProcessorFps={5}
-          />
-          <AnimatedText
-            style={styles.barcodeText}
-            animatedProps={animatedTextProps}
-            editable={false}
-            multiline={true}
-          />
-        </View>
-      );
+  const handleTakePhoto = async () => {
+    try {
+      const photo = await camera.current.takePhoto({
+        flash: 'on',
+      });
+      setPhotoPath(photo.path);
+    } catch (e) {
+      console.log(e);
     }
-    return <ActivityIndicator size="large" color="#1C6758" />;
+  };
+
+  const renderTakingPhoto = () => {
+    return (
+      <View>
+        <Camera
+          ref={camera}
+          style={styles.camera}
+          device={cameraDevice}
+          isActive
+          photo
+        />
+        {photoPath && (
+          <Image style={styles.image} source={{ uri: photoPath }} />
+        )}
+        <TouchableOpacity onPress={handleTakePhoto}>
+          <Text>Take Photo</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  const handleRecordVideo = async () => {
+    try {
+      camera.current.startRecording({
+        flash: 'on',
+        onRecordingFinished: video => console.log(video),
+        onRecordingError: error => console.error(error),
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const renderRecordingVideo = () => {
+    return null;
+  };
+
+  const handleTakeSnapshot = async () => {
+    try {
+      const snapshot = await camera.current.takeSnapshot({
+        quality: 85,
+        skipMetadata: true,
+      });
+      setSnapshotPath(snapshot.path);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const renderTakingSnapshot = () => {
+    return (
+      <View>
+        <Camera
+          ref={camera}
+          style={styles.camera}
+          device={cameraDevice}
+          isActive
+          photo
+        />
+        {snapshotPath && (
+          <Image style={styles.image} source={{ uri: snapshotPath }} />
+        )}
+        <TouchableOpacity onPress={handleTakeSnapshot}>
+          <Text>Take Snapshot</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  const renderCodeScanner = () => {
+    return (
+      <View>
+        <Camera
+          style={styles.camera}
+          device={cameraDevice}
+          isActive
+          frameProcessor={frameProcessor}
+          frameProcessorFps={5}
+        />
+        <AnimatedText
+          style={styles.barcodeText}
+          animatedProps={animatedTextProps}
+          editable={false}
+          multiline
+        />
+      </View>
+    );
+  };
+
+  const renderContent = () => {
+    if (cameraDevice === null) {
+      return <ActivityIndicator size="large" color="#1C6758" />;
+    }
+    if (cameraPermission !== 'authorized') {
+      return null;
+    }
+    switch (currentExample) {
+      case 'take-photo':
+        return renderTakingPhoto();
+      case 'record-video':
+        return renderRecordingVideo();
+      case 'take-snapshot':
+        return renderTakingSnapshot();
+      case 'code-scanner':
+        return renderCodeScanner();
+      default:
+        return null;
+    }
+  };
+
+  const handleChangePicketSelect = value => {
+    setPhotoPath(null);
+    setSnapshotPath(null);
+    setCurrentExample(value);
   };
 
   return (
@@ -86,7 +196,18 @@ export default function App() {
         </Text>
       </View>
 
-      {renderCameraContent()}
+      <RNPickerSelect
+        style={styles.pickerSelect}
+        onValueChange={handleChangePicketSelect}
+        items={[
+          { label: 'Take Photo', value: 'take-photo' },
+          { label: 'Record Video', value: 'record-video' },
+          { label: 'Take Snapshot', value: 'take-snapshot' },
+          { label: 'Code Scanner', value: 'code-scanner' },
+        ]}
+      />
+
+      {renderContent()}
     </View>
   );
 }
@@ -120,7 +241,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   camera: {
-    height: 420,
+    height: 460,
     width: '92%',
     alignSelf: 'center',
   },
@@ -130,5 +251,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#100F0F',
     fontSize: 24,
+  },
+  pickerSelect: {
+    paddingVertical: 12,
+  },
+  image: {
+    width: 66,
+    height: 58,
   },
 });
