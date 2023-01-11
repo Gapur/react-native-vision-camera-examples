@@ -20,6 +20,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import DropDownPicker from 'react-native-dropdown-picker';
+import Video from 'react-native-video';
 
 const AnimatedText = Animated.createAnimatedComponent(TextInput);
 
@@ -30,6 +31,7 @@ export default function App() {
   const [currentExample, setCurrentExample] = useState('take-photo');
   const [photoPath, setPhotoPath] = useState();
   const [snapshotPath, setSnapshotPath] = useState();
+  const [videoPath, setVideoPath] = useState();
   const detectorResult = useSharedValue('');
 
   useEffect(() => {
@@ -73,7 +75,7 @@ export default function App() {
       <View>
         <Camera
           ref={camera}
-          style={[styles.camera, styles.scannerCamera]}
+          style={[styles.camera, styles.photoAndVideoCamera]}
           device={cameraDevice}
           isActive
           photo
@@ -92,9 +94,17 @@ export default function App() {
     try {
       camera.current.startRecording({
         flash: 'on',
-        onRecordingFinished: video => console.log(video),
+        onRecordingFinished: video => setVideoPath(video.path),
         onRecordingError: error => console.error(error),
       });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleStopVideo = async () => {
+    try {
+      await camera.current.stopRecording();
     } catch (e) {
       console.log(e);
     }
@@ -103,16 +113,24 @@ export default function App() {
   const renderRecordingVideo = () => {
     return (
       <View>
-        {/* <Camera
+        <Camera
           ref={camera}
-          style={styles.camera}
+          style={[styles.camera, styles.photoAndVideoCamera]}
           device={cameraDevice}
           isActive
           video
-        /> */}
-        <TouchableOpacity style={styles.btn} onPress={handleRecordVideo}>
-          <Text style={styles.btnText}>Record Video</Text>
-        </TouchableOpacity>
+        />
+        <View style={styles.btnGroup}>
+          <TouchableOpacity style={styles.btn} onPress={handleRecordVideo}>
+            <Text style={styles.btnText}>Record Video</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ ...styles.btn }} onPress={handleStopVideo}>
+            <Text style={styles.btnText}>Stop Video</Text>
+          </TouchableOpacity>
+        </View>
+        {videoPath && (
+          <Video source={{ uri: videoPath }} style={styles.video} />
+        )}
       </View>
     );
   };
@@ -134,7 +152,7 @@ export default function App() {
       <View>
         <Camera
           ref={camera}
-          style={[styles.camera, styles.scannerCamera]}
+          style={[styles.camera, styles.photoAndVideoCamera]}
           device={cameraDevice}
           isActive
           photo
@@ -170,7 +188,7 @@ export default function App() {
   };
 
   const renderContent = () => {
-    if (cameraDevice === null) {
+    if (cameraDevice == null) {
       return <ActivityIndicator size="large" color="#1C6758" />;
     }
     if (cameraPermission !== 'authorized') {
@@ -193,6 +211,7 @@ export default function App() {
   const handleChangePicketSelect = value => {
     setPhotoPath(null);
     setSnapshotPath(null);
+    setVideoPath(null);
     setCurrentExample(value);
   };
 
@@ -263,7 +282,7 @@ const styles = StyleSheet.create({
     width: '92%',
     alignSelf: 'center',
   },
-  scannerCamera: {
+  photoAndVideoCamera: {
     height: 360,
   },
   barcodeText: {
@@ -287,9 +306,13 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     zIndex: 9,
   },
+  btnGroup: {
+    margin: 16,
+    flexDirection: 'row',
+  },
   btn: {
     backgroundColor: '#63995f',
-    margin: 16,
+    margin: 13,
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderRadius: 8,
@@ -298,5 +321,13 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 20,
     textAlign: 'center',
+  },
+  video: {
+    marginHorizontal: 16,
+    height: 100,
+    width: 80,
+    position: 'absolute',
+    right: 0,
+    bottom: -80,
   },
 });
