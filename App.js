@@ -19,13 +19,14 @@ import Animated, {
   useAnimatedProps,
   useSharedValue,
 } from 'react-native-reanimated';
-import RNPickerSelect from 'react-native-picker-select';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const AnimatedText = Animated.createAnimatedComponent(TextInput);
 
 export default function App() {
   const camera = useRef(null);
   const [cameraPermission, setCameraPermission] = useState();
+  const [open, setOpen] = useState(false);
   const [currentExample, setCurrentExample] = useState('take-photo');
   const [photoPath, setPhotoPath] = useState();
   const [snapshotPath, setSnapshotPath] = useState();
@@ -70,13 +71,13 @@ export default function App() {
   const renderTakingPhoto = () => {
     return (
       <View>
-        <Camera
+        {/* <Camera
           ref={camera}
           style={styles.camera}
           device={cameraDevice}
           isActive
           photo
-        />
+        /> */}
         {photoPath && (
           <Image style={styles.image} source={{ uri: photoPath }} />
         )}
@@ -100,7 +101,20 @@ export default function App() {
   };
 
   const renderRecordingVideo = () => {
-    return null;
+    return (
+      <View>
+        {/* <Camera
+          ref={camera}
+          style={styles.camera}
+          device={cameraDevice}
+          isActive
+          video
+        /> */}
+        <TouchableOpacity onPress={handleRecordVideo}>
+          <Text>Record Video</Text>
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   const handleTakeSnapshot = async () => {
@@ -118,13 +132,13 @@ export default function App() {
   const renderTakingSnapshot = () => {
     return (
       <View>
-        <Camera
+        {/* <Camera
           ref={camera}
           style={styles.camera}
           device={cameraDevice}
           isActive
           photo
-        />
+        /> */}
         {snapshotPath && (
           <Image style={styles.image} source={{ uri: snapshotPath }} />
         )}
@@ -196,16 +210,20 @@ export default function App() {
         </Text>
       </View>
 
-      <RNPickerSelect
-        style={styles.pickerSelect}
-        onValueChange={handleChangePicketSelect}
-        items={[
-          { label: 'Take Photo', value: 'take-photo' },
-          { label: 'Record Video', value: 'record-video' },
-          { label: 'Take Snapshot', value: 'take-snapshot' },
-          { label: 'Code Scanner', value: 'code-scanner' },
-        ]}
-      />
+      <View style={styles.dropdownPickerWrapper}>
+        <DropDownPicker
+          open={open}
+          value={currentExample}
+          items={[
+            { label: 'Take Photo', value: 'take-photo' },
+            { label: 'Record Video', value: 'record-video' },
+            { label: 'Take Snapshot', value: 'take-snapshot' },
+            { label: 'Code Scanner', value: 'code-scanner' },
+          ]}
+          setOpen={setOpen}
+          setValue={handleChangePicketSelect}
+        />
+      </View>
 
       {renderContent()}
     </View>
@@ -231,7 +249,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   caption: {
-    height: 120,
+    height: 100,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -258,5 +276,10 @@ const styles = StyleSheet.create({
   image: {
     width: 66,
     height: 58,
+  },
+  dropdownPickerWrapper: {
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    zIndex: 9,
   },
 });

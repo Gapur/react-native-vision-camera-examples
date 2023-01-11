@@ -12,7 +12,7 @@
   "dependencies": {
     "react": "18.1.0",
     "react-native": "0.70.6",
-    "react-native-picker-select": "^8.0.4",
+    "react-native-dropdown-picker": "^5.4.4",
     "react-native-reanimated": "^2.13.0",
     "react-native-vision-camera": "^2.15.2",
     "vision-camera-code-scanner": "^0.2.0"
