@@ -71,19 +71,19 @@ export default function App() {
   const renderTakingPhoto = () => {
     return (
       <View>
-        {/* <Camera
+        <Camera
           ref={camera}
-          style={styles.camera}
+          style={[styles.camera, styles.scannerCamera]}
           device={cameraDevice}
           isActive
           photo
-        /> */}
+        />
+        <TouchableOpacity style={styles.btn} onPress={handleTakePhoto}>
+          <Text style={styles.btnText}>Take Photo</Text>
+        </TouchableOpacity>
         {photoPath && (
           <Image style={styles.image} source={{ uri: photoPath }} />
         )}
-        <TouchableOpacity onPress={handleTakePhoto}>
-          <Text>Take Photo</Text>
-        </TouchableOpacity>
       </View>
     );
   };
@@ -110,8 +110,8 @@ export default function App() {
           isActive
           video
         /> */}
-        <TouchableOpacity onPress={handleRecordVideo}>
-          <Text>Record Video</Text>
+        <TouchableOpacity style={styles.btn} onPress={handleRecordVideo}>
+          <Text style={styles.btnText}>Record Video</Text>
         </TouchableOpacity>
       </View>
     );
@@ -132,19 +132,19 @@ export default function App() {
   const renderTakingSnapshot = () => {
     return (
       <View>
-        {/* <Camera
+        <Camera
           ref={camera}
-          style={styles.camera}
+          style={[styles.camera, styles.scannerCamera]}
           device={cameraDevice}
           isActive
           photo
-        /> */}
+        />
+        <TouchableOpacity style={styles.btn} onPress={handleTakeSnapshot}>
+          <Text style={styles.btnText}>Take Snapshot</Text>
+        </TouchableOpacity>
         {snapshotPath && (
           <Image style={styles.image} source={{ uri: snapshotPath }} />
         )}
-        <TouchableOpacity onPress={handleTakeSnapshot}>
-          <Text>Take Snapshot</Text>
-        </TouchableOpacity>
       </View>
     );
   };
@@ -263,6 +263,9 @@ const styles = StyleSheet.create({
     width: '92%',
     alignSelf: 'center',
   },
+  scannerCamera: {
+    height: 360,
+  },
   barcodeText: {
     paddingHorizontal: 16,
     paddingVertical: 20,
@@ -274,12 +277,26 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   image: {
-    width: 66,
-    height: 58,
+    marginHorizontal: 16,
+    paddingTop: 8,
+    width: 80,
+    height: 80,
   },
   dropdownPickerWrapper: {
     paddingHorizontal: 16,
     paddingBottom: 16,
     zIndex: 9,
+  },
+  btn: {
+    backgroundColor: '#63995f',
+    margin: 16,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderRadius: 8,
+  },
+  btnText: {
+    color: '#ffffff',
+    fontSize: 20,
+    textAlign: 'center',
   },
 });
