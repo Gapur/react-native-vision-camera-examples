@@ -4,13 +4,13 @@
 
 # Using React Native VisionCamera
 
-In a previous article, I wrote about how to use React Native Camera, which is now, unfortunately, deprecated. Today, I’m back to talk about other options we can use in our React Native projects to replace React Native Camera.
+In a previous article, I wrote about [how to use React Native Camera](https://blog.logrocket.com/intro-to-react-native-camera/), which is now, unfortunately, deprecated. Today, I’m back to talk about other options we can use in our React Native projects to replace React Native Camera.
 
 We’ll introduce React Native VisionCamera and assess some other alternatives to help you choose which camera library to use in your next application. In this piece, I’ll demonstrate what  VisionCamera can do by developing a QR code scanner. Let’s get started!
 
 ## Introducing React Native VisionCamera
 
-VisionCamera is a fully featured camera library for React Native. Some key benefits include:
+[VisionCamera](https://mrousavy.com/react-native-vision-camera/) is a fully featured camera library for React Native. Some key benefits include:
 
 - Rich developer support: VisionCamera has a large developer community and every feature is well documented and supported
 - Feature-rich: VisionCamera offers all the features you’d want from a modern smartphone camera, plus full control over what device is being used — it can even adjust settings like frame rate and more
@@ -25,7 +25,7 @@ First, we need to enable photo capture in order to take a photo:
 <Camera {...props} photo={true} />
 ```
 
-Then, just use VisionCamera’s takePhoto method:
+Then, just use VisionCamera’s [takePhoto](https://mrousavy.com/react-native-vision-camera/docs/api/classes/Camera/#takephoto) method:
 
 ```js
 const photo = await camera.current.takePhoto({
@@ -39,7 +39,7 @@ const photo = await camera.current.takePhoto({
 
 ## Taking snapshots
 
-Take snapshots with VisionCamera’s takeSnapshot(...) function like so:
+Take snapshots with VisionCamera’s [takeSnapshot(...)](https://mrousavy.com/react-native-vision-camera/docs/api/classes/Camera/#takesnapshot) function like so:
 
 ```js
 const snapshot = await camera.current.takeSnapshot({
@@ -63,7 +63,7 @@ To record video, you’ll first have to enable video capture for a video recordi
   audio={true} // <-- optional
 />
 ```
-Then we can record a video via VisionCamera’s startRecording(...) function:
+Then we can record a video via VisionCamera’s [startRecording(...)](https://mrousavy.com/react-native-vision-camera/docs/api/classes/Camera/#takesnapshot) function:
 
 ```js
 camera.current.startRecording({
@@ -87,7 +87,7 @@ await camera.current.stopRecording()
 
 ## Setting up the project
 
-Before we get started, we’ll need to create a new React Native project. We can do that with the following commands:
+Before we get started, we’ll need to [create a new React Native project](https://blog.logrocket.com/create-react-native-app-using-ignite-boilerplate/). We can do that with the following commands:
 
 ```sh
 npx react-native init react_native_image_detector
@@ -122,7 +122,7 @@ For Android, we will add the following lines of code to our `AndroidManifest.xml
 <uses-permission android:name="android.permission.RECORD_AUDIO" />
 ```
 
-We will also use the vision-camera-code-scanner plugin to scan the code using ML Kit’s barcode scanning API. Let’s install it with the following command:
+We will also use the [vision-camera-code-scanner](https://github.com/rodgomesc/vision-camera-code-scanner) plugin to scan the code using ML Kit’s barcode scanning API. Let’s install it with the following command:
 
 ```sh
 yarn add vision-camera-code-scanner
@@ -134,7 +134,7 @@ To label a camera QR code as text, we need to install React Native Reanimated by
 yarn add react-native-reanimated
 ```
 
-Lastly, let’s update our babel.config.js file:
+Lastly, let’s update our `babel.config.js` file:
 
 ```js
 module.exports = {
@@ -181,7 +181,7 @@ Next, to record videos or capture photos, we will use the camera’s physical or
 - Physical: The camera lens on a phone. All physical cameras have different characteristics and capabilities, like formats, frame rate, focal length, and more. In addition, some phones have multiple physical cameras
 - Virtual: A combination of one or more physical camera devices
 
-We can get all the camera devices with the useCameraDevices Hook. Let’s update App.js and add the following code:
+We can get all the camera devices with the `useCameraDevices` Hook. Let’s update `App.js` and add the following code:
 
 ```js
 const devices = useCameraDevices();
@@ -254,7 +254,7 @@ export default function App() {
 }
 ```
 
-In the above code, we received the camera permission inside the `useEffect` Hook and got the device’s rear camera. Then, we checked whether cameraDevice exists and whether camera permission is `authorized`, after which the app will show the camera component.
+In the above code, we received the camera permission inside the `useEffect` Hook and got the device’s rear camera. Then, we checked whether `cameraDevice` exists and whether camera permission is `authorized`, after which the app will show the camera component.
 
 ## Using frame processor plugins
 
@@ -290,15 +290,15 @@ This is the final app:
   <img src="https://github.com/Gapur/react-native-vision-camera-examples/blob/main/assets/example4.gif" />
 </p>
 
-You can check out the full code for this tutorial in this GitHub repository.
+You can check out the full code for this tutorial in this [GitHub repository](https://github.com/Gapur/react-native-vision-camera-examples).
 
 ## React Native camera library alternatives
 
 It’s worth noting that there are some other alternatives to VisionCamera, so I’ve taken the liberty of including a quick list below. As with any tool, whatever works best for you and your use case is the one you should choose!
 
-- React Native Camera Kit: A robust, high-performance, lightweight, and easy-to-use camera library for React Native with 1.9K stars on GitHub at the time of writing. It’s worth noting that it doesn’t support video, so if that’s crucial for your use case, you’ll want to find an alternative
-- React Native Video: A <Video/> component for React Native with 6.4K stars on GitHub at the time of writing. In contrast to Camera Kit, it only supports videos, so keep that in mind
-- React Native Image Picker: This library allows you to select a photo/video from a device library or camera using its native UI. It has 7.9K stars on GitHub at the time of writing
+- [React Native Camera Kit](https://github.com/teslamotors/react-native-camera-kit): A robust, high-performance, lightweight, and easy-to-use camera library for React Native with 1.9K stars on GitHub at the time of writing. It’s worth noting that it doesn’t support video, so if that’s crucial for your use case, you’ll want to find an alternative
+- [React Native Video](https://github.com/react-native-video/react-native-video): A <Video/> component for React Native with 6.4K stars on GitHub at the time of writing. In contrast to Camera Kit, it only supports videos, so keep that in mind
+- [React Native Image Picker](https://github.com/react-native-image-picker/react-native-image-picker): This library allows you to select a photo/video from a device library or camera using its native UI. It has 7.9K stars on GitHub at the time of writing
 
 # Conclusion
 
