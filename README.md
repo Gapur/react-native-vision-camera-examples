@@ -290,8 +290,6 @@ This is the final app:
   <img src="https://github.com/Gapur/react-native-vision-camera-examples/blob/main/assets/example4.gif" />
 </p>
 
-You can check out the full code for this tutorial in this [GitHub repository](https://github.com/Gapur/react-native-vision-camera-examples).
-
 ## React Native camera library alternatives
 
 It’s worth noting that there are some other alternatives to VisionCamera, so I’ve taken the liberty of including a quick list below. As with any tool, whatever works best for you and your use case is the one you should choose!
