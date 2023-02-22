@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/Gapur/react-native-vision-camera-examples/blob/main/assets/logo.png" />
+  <img width="500" src="https://github.com/Gapur/react-native-vision-camera-examples/blob/main/assets/logo.png" />
 </p>
 
 # Using React Native VisionCamera
