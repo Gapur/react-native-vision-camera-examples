@@ -308,3 +308,14 @@ If the camera plays a big role in your application and you need full control ove
 
 Thanks for reading. I hope you found this piece useful. Happy coding!
 
+## Article on LogRocket
+
+[Using React Native VisionCamera: Demo and alternatives](https://blog.logrocket.com/react-native-visioncamera-demo-alternatives/)
+
+## How to contribute?
+
+1. Fork this repo
+2. Clone your fork
+3. Code 🤓
+4. Test your changes
+5. Submit a PR!
