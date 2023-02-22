@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/Gapur/react-native-scanner/blob/main/assets/intro-react-native-camera.jpg" />
+  <img src="https://github.com/Gapur/react-native-vision-camera-examples/blob/main/assets/logo.png" />
 </p>
 
 # Using React Native VisionCamera
@@ -34,7 +34,7 @@ const photo = await camera.current.takePhoto({
 ```
 
 <p align="center">
-  <img src="https://github.com/Gapur/react-native-scanner/blob/main/assets/intro-react-native-camera.jpg" />
+  <img src="https://github.com/Gapur/react-native-vision-camera-examples/blob/main/assets/example1.gif" />
 </p>
 
 ## Taking snapshots
@@ -49,7 +49,7 @@ const snapshot = await camera.current.takeSnapshot({
 ```
 
 <p align="center">
-  <img src="https://github.com/Gapur/react-native-scanner/blob/main/assets/intro-react-native-camera.jpg" />
+  <img src="https://github.com/Gapur/react-native-vision-camera-examples/blob/main/assets/example2.png" />
 </p>
 
 ## Recording video
@@ -78,6 +78,10 @@ Once we start recording, we can stop it like so:
 ```js
 await camera.current.stopRecording()
 ```
+
+<p align="center">
+  <img src="https://github.com/Gapur/react-native-vision-camera-examples/blob/main/assets/example3.gif" />
+</p>
 
 # Building a QR code scanner with VisionCamera
 
@@ -281,8 +285,9 @@ Here, we scanned the QR code and assigned barcode strings with a React Native Re
 
 This is the final app:
 
+
 <p align="center">
-  <img src="https://github.com/Gapur/react-native-scanner/blob/main/assets/intro-react-native-camera.jpg" />
+  <img src="https://github.com/Gapur/react-native-vision-camera-examples/blob/main/assets/example4.gif" />
 </p>
 
 You can check out the full code for this tutorial in this GitHub repository.
